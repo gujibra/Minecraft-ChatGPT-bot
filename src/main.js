@@ -5,7 +5,7 @@ const { accessToken ,apiReverseProxy ,host , Port, token, username, discordChann
 //abri chatgpt :D
 
 const { ChatGPTUnofficialProxyAPI } = await import('chatgpt')
-
+let ativarprefix = true
 
 let MineBot
 const prefix = '.';
@@ -56,8 +56,14 @@ const client = new Client({
     if (cmd === "kill"){
         SendMessage('/kill')
     }
+    
     if (cmd === "prefixo"){
-        SendMessage(`Meu prefixo é ${prefix}`)
+        ativarprefix = !ativarprefix
+        if(ativarprefix){
+            SendMessage('prefixo ativo')
+            message.channel.send('## prefixo para conversar comigo ativo! envie sua mensagem com chatgpt no inicio para ser respondido')
+        }else{SendMessage('prefixo desativado')
+            message.channel.send('## prefixo para conversar comigo desativado')}
     }
 
 
@@ -102,19 +108,25 @@ const initBot =(bot)=>{
 
       //funções
 
-
+      
       //essa função so envia mensagens de players
       bot.on('chat', (username, message) => {
           if (username === bot.username || username === "mrrowfication" || username === "3arth4ck2") return
-          discordChannel.send(`${username}: ${message}`)
-         // InteligenciaGPT(message)
-
-
-            //ativar se quiser so quando tiver prefixo
-          if(message.startsWith('!chatgpt')){
-           InteligenciaGPT(message.slice(8))
+        
+          if(message.toLowerCase().startsWith('chatgpt') && ativarprefix){
+           InteligenciaGPT(message.slice(7))
+           //discordChannel.send(`${username}: ${message}`)
+          }
+          if(!ativarprefix){
+            InteligenciaGPT(message.slice(7))
+           discordChannel.send(`${username}: ${message}`)
+          }
+          else{
+            discordChannel.send(`${username}: ${message}`)
           }
         })
+
+        
 
 
         //essa envia todas as mensagens
