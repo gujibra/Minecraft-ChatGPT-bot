@@ -1,1 +1,10 @@
-eae
+{
+  "host": "",
+  "Port": "",
+  "token": "",
+  "username": "ChtGPT",
+  "discordChannelId": "",
+  "apiReverseProxy": "",
+  "accessToken": ""
+}
+
